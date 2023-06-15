@@ -1,0 +1,102 @@
+{{- $caCert := "" }}
+{{- if .Values.webhook.certManager.enabled }}
+{{- if not .Values.webhook.certManager.issuerName }}
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ include "redis-operator.fullname" . }}
+  labels:
+    {{- include "redis-operator.labels" . | nindent 4 }}
+spec:
+  selfSigned: {}
+{{- end }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "redis-operator.fullname" . }}
+  labels:
+    {{- include "redis-operator.labels" . | nindent 4 }}
+spec:
+  dnsNames:
+  - {{ include "redis-operator.fullname" . }}
+  - {{ include "redis-operator.fullname" . }}.{{ .Release.Namespace }}
+  - {{ include "redis-operator.fullname" . }}.{{ .Release.Namespace }}.svc
+  - {{ include "redis-operator.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  issuerRef:
+    {{- if .Values.webhook.certManager.issuerName }}
+    {{- with .Values.webhook.certManager.issuerGroup }}
+    group: {{ . }}
+    {{- end }}
+    {{- with .Values.webhook.certManager.issuerKind }}
+    kind: {{ . }}
+    {{- end }}
+    name: {{ .Values.webhook.certManager.issuerName }}
+    {{- else }}
+    name: {{ include "redis-operator.fullname" . }}
+    {{- end }}
+  secretName: {{ include "redis-operator.fullname" . }}-tls-managed
+{{- else }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "redis-operator.fullname" . }}-tls
+  labels:
+    {{- include "redis-operator.labels" . | nindent 4 }}
+type: Opaque
+data:
+  {{- $data := (lookup "v1" "Secret" .Release.Namespace (printf "%s-tls" (include "redis-operator.fullname" .))).data }}
+  {{- if $data }}
+  {{ $data | toYaml | nindent 2 }}
+  {{- $caCert = index $data "ca.crt" }}
+  {{- else }}
+  {{- $cn := printf "%s.%s.svc" (include "redis-operator.fullname" .) .Release.Namespace }}
+  {{- $ca := genCA (printf "%s-ca" (include "redis-operator.fullname" .)) 36500 }}
+  {{- $cert := genSignedCert $cn nil (list $cn) 36500 $ca }}
+  ca.crt: {{ $ca.Cert | b64enc }}
+  tls.crt: {{ $cert.Cert | b64enc }}
+  tls.key: {{ $cert.Key | b64enc }}
+  {{- $caCert = $ca.Cert | b64enc }}
+  {{- end }}
+{{- end }}
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: {{ include "redis-operator.fullname" . }}
+  labels:
+    {{- include "redis-operator.labels" . | nindent 4 }}
+  {{- if .Values.webhook.certManager.enabled }}
+  annotations:
+    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/{{ include "redis-operator.fullname" . }}
+  {{- end }}
+webhooks:
+- name: redis-operator.cs.sap.com
+  admissionReviewVersions:
+  - v1
+  clientConfig:
+    {{- if not .Values.webhook.certManager.enabled }}
+    caBundle: {{ $caCert }}
+    {{- end }}
+    service:
+      namespace: {{ .Release.Namespace }}
+      name: {{ include "redis-operator.fullname" . }}
+      port: {{ .Values.service.port }}
+      path: /admission/cache.cs.sap.com/v1alpha1/redis/validate
+  rules:
+  - apiGroups:
+    - cache.cs.sap.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - redis
+    scope: Namespaced
+  failurePolicy: Fail
+  sideEffects: None
+  timeoutSeconds: 10

@@ -1,0 +1,16 @@
+admissionWebhookRuntimeVersion: v0.1.0
+controllerRuntimeVersion: v0.15.0
+envtestKubernetesVersion: 1.26.1
+goModule: github.com/sap/redis-operator-cop
+goVersion: "1.19"
+groupName: operator.kyma-project.io
+groupVersion: v1alpha1
+image: redis-operator-cop:latest
+kind: RedisOperator
+kubernetesVersion: v0.27.2
+mutatingWebhookEnabled: false
+operatorName: redis-operator-cop.cs.sap.com
+owner: SAP SE
+resource: redisoperators
+validatingWebhookEnabled: false
+version: latest

@@ -1,0 +1,85 @@
+name: Publish Docker
+
+on:
+  release:
+    types: [published]
+
+  push:
+    branches:
+    - main
+    paths-ignore:
+    - README.md
+
+  pull_request:
+    branches:
+    - main
+    paths-ignore:
+    - README.md
+
+env:
+  REGISTRY: ghcr.io
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE_NAME: ${{ github.repository }}
+
+    steps:
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Log in to the Container registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Prepare custom labels for Docker
+      run: |
+        echo "LABELS<<EOF" >> $GITHUB_ENV
+        for c in pkg/operator/data/charts/*/Chart.yaml; do
+          name=$(yq .name $c)
+          version=$(yq .version $c)
+          app_version=$(yq .appVersion $c)
+          echo "com.sap.cs.image.content.charts.$name.version=$version" >> $GITHUB_ENV
+          if [ ! -z "$app_version" ]; then
+             echo "com.sap.cs.image.content.charts.$name.app-version=$app_version" >> $GITHUB_ENV
+          fi
+        done
+        echo "EOF" >> $GITHUB_ENV
+
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        labels: ${{ env.LABELS }}
+
+    - name: Build Docker image
+      uses: docker/build-push-action@v4
+      with:
+        platforms: linux/amd64,linux/arm64
+        context: .
+        cache-from: |
+          type=gha,scope=sha-${{ github.sha }}
+          type=gha,scope=${{ github.ref_name }}
+          type=gha,scope=${{ github.base_ref || 'main' }}
+          type=gha,scope=main
+        cache-to: |
+          type=gha,scope=sha-${{ github.sha }},mode=max
+          type=gha,scope=${{ github.ref_name }},mode=max
+        push: ${{ github.event_name == 'release' }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
