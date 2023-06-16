@@ -22,8 +22,6 @@ type RedisOperatorSpec struct {
 	// +optional
 	Image                          component.ImageSpec `json:"image"`
 	component.KubernetesProperties `json:",inline"`
-	ObjectSelector                 *metav1.LabelSelector `json:"objectSelector,omitempty"`
-	NamespaceSelector              *metav1.LabelSelector `json:"namespaceSelector,omitempty"`
 }
 
 // RedisOperatorStatus defines the observed state of RedisOperator.
