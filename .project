@@ -13,4 +13,4 @@ operatorName: redis-operator-cop.cs.sap.com
 owner: SAP SE
 resource: redisoperators
 validatingWebhookEnabled: false
-version: latest
+version: v0.1.4

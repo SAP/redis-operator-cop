@@ -1,0 +1,13 @@
+{{- if ge (int .Values.replicaCount) 2 }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "redis-operator-cop.fullname" . }}
+  labels:
+    {{- include "redis-operator-cop.labels" . | nindent 4 }}
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      {{- include "redis-operator-cop.selectorLabels" . | nindent 6 }}
+{{- end }}

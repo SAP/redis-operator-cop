@@ -33,6 +33,7 @@ type RedisOperatorStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="State",type=string,JSONPath=`.status.state`
 // +kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
+// +genclient
 
 // RedisOperator is the Schema for the redisoperators API.
 type RedisOperator struct {
