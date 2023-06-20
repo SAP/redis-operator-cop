@@ -6,7 +6,7 @@ Disclaimer: Redis is a registered trademark of Redis Ltd. Any rights therein are
 
 ## About this project
 
-Component Operator for [https://github.com/sap/redis-operator](https://github.com/sap/redis-operator)
+Component Operator for [https://github.com/sap/redis-operator](https://github.com/sap/redis-operator).
 
 ## Support, Feedback, Contributing
 
