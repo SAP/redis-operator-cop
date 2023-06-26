@@ -1,0 +1,57 @@
+name: Update Content
+
+on:
+  workflow_dispatch:
+    inputs:
+      version-bump:
+        description: 'Whether to bump major, minor or patch version'
+        # For exmaple:
+          # Bump major version (i.e. current_version=v1.2.3 --> new_version=v2.0.0)'
+          # Bump minor version (i.e. current_version=v1.2.3 --> new_version=v1.3.0)
+          # Bump patch version (i.e. current_version=v1.2.3 --> new_version=v1.2.4)
+        required: false
+        default: patch
+        type: choice
+        options:
+        - major
+        - minor
+        - patch
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  update-content:
+    name: Update external resources used by this repository
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.WORKFLOW_USER_GH_TOKEN }}
+
+    - name: Update content
+      run: make update-content
+
+    - name: Commit changes
+      run: |
+        git config --global user.name github-actions
+        git config --global user.email github-actions@github.com
+        git pull
+        git add -A
+        git commit -m "update external resources" || true //do not throw error, when nothing to commit
+        git push
+
+    - name: Create a workflow_dispatch event in clustersecret-operator-cop repo
+      run: |
+        curl --request POST \
+          --header "Accept: application/vnd.github+json" \
+          --header "Authorization: Bearer ${{ secrets.WORKFLOW_USER_GH_TOKEN }}" \
+          --url https://api.github.com/repos/sap/clustersecret-operator-cop/actions/workflows/release.yaml/dispatches \
+          --data '{
+            "ref":"main",
+            "inputs":{
+              "version-bump":"${{ github.event.inputs.version-bump }}"
+              }
+            }'
