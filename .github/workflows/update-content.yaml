@@ -43,7 +43,7 @@ jobs:
         git commit -m "update external resources" || true //do not throw error, when nothing to commit
         git push
 
-    - name: Create a workflow_dispatch event in clustersecret-operator-cop repo
+    - name: Create a workflow_dispatch event in redis-operator-cop repo
       run: |
         curl --request POST \
           --header "Accept: application/vnd.github+json" \
