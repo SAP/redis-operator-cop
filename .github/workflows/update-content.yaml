@@ -48,7 +48,7 @@ jobs:
         curl --request POST \
           --header "Accept: application/vnd.github+json" \
           --header "Authorization: Bearer ${{ secrets.WORKFLOW_USER_GH_TOKEN }}" \
-          --url https://api.github.com/repos/sap/clustersecret-operator-cop/actions/workflows/release.yaml/dispatches \
+          --url https://api.github.com/repos/sap/redis-operator-cop/actions/workflows/release.yaml/dispatches \
           --data '{
             "ref":"main",
             "inputs":{
