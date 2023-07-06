@@ -73,7 +73,7 @@ metadata:
     cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/{{ include "redis-operator.fullname" . }}
   {{- end }}
 webhooks:
-- name: redis-operator.cs.sap.com
+- name: validate.redis.cache.cs.sap.com
   admissionReviewVersions:
   - v1
   clientConfig:
@@ -97,6 +97,7 @@ webhooks:
     resources:
     - redis
     scope: Namespaced
-  failurePolicy: Fail
+  matchPolicy: Equivalent
   sideEffects: None
   timeoutSeconds: 10
+  failurePolicy: Fail
