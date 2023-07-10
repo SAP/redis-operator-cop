@@ -23,6 +23,7 @@ env:
   TAG_PREFIX: v
   INITIAL_TAG: v0.1.0
   SEMVER_VERSION: 3.4.0
+  HELM_DOCS_VERSION: v1.11.0
   CHART_DIRECTORY: chart
 
 defaults:
@@ -48,6 +49,12 @@ jobs:
       uses: ./.github/actions/setup-semver
       with:
         version: ${{ env.SEMVER_VERSION }}
+        install-directory: ${{ runner.temp }}/bin
+
+    - name: Setup helm-docs
+      uses: ./.github/actions/setup-helm-docs
+      with:
+        version: ${{ env.HELM_DOCS_VERSION }}
         install-directory: ${{ runner.temp }}/bin
 
     - name: Determine current release
@@ -102,7 +109,7 @@ jobs:
         echo "version=$version" >> $GITHUB_OUTPUT
         echo "tag=$tag" >> $GITHUB_OUTPUT
 
-    - name: Update chart version and appVersion
+    - name: Update chart version/appVersion and chart docs
       run: |
         current_chart_version=$(yq .version $CHART_DIRECTORY/Chart.yaml)
         current_app_version=$(yq .appVersion $CHART_DIRECTORY/Chart.yaml)
@@ -114,14 +121,26 @@ jobs:
         perl -pi -e "s#^appVersion:.*#appVersion: $target_app_version#g" $CHART_DIRECTORY/Chart.yaml
 
         if [ -z "$(git status --porcelain)" ]; then
-          echo "Nothing has changed; skipping commit/push ..."
+          echo "Nothing has changed; skipping commit ..."
         else
           git config user.name "${{ vars.WORKFLOW_USER_NAME }}"
           git config user.email "${{ vars.WORKFLOW_USER_EMAIL }}"
           git add -A
           git commit -m "Bump chart/app version from $current_chart_version/$current_app_version to $target_chart_version/$target_app_version"
-          git push
         fi
+
+        helm-docs -c $CHART_DIRECTORY -s file
+
+        if [ -z "$(git status --porcelain)" ]; then
+          echo "Nothing has changed; skipping commit ..."
+        else
+          git config user.name "${{ vars.WORKFLOW_USER_NAME }}"
+          git config user.email "${{ vars.WORKFLOW_USER_EMAIL }}"
+          git add -A
+          git commit -m "Update chart docs"
+        fi
+
+        git push
 
     - name: Determine target commit
       id: get_target_commit
@@ -129,6 +148,23 @@ jobs:
         sha=$(git rev-parse HEAD)
         echo "Target commit: $sha"
         echo "sha=$sha" >> $GITHUB_OUTPUT
+
+    - name: Wait for build to finish
+      uses: fountainhead/action-wait-for-check@v1.1.0
+      id: wait_for_build
+      with:
+        token: ${{ github.token }}
+        checkName: Build Docker image
+        ref: ${{ steps.get_target_commit.outputs.sha }}
+        timeoutSeconds: 900
+
+    - name: Check that build was successful
+      uses: actions/github-script@v3
+      with:
+        script: |
+          if ('${{ steps.wait_for_build.outputs.conclusion}}' != 'success') {
+            core.setFailed('Build not successful, conclusion: ${{ steps.wait_for_build.outputs.conclusion}}.')
+          }
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
