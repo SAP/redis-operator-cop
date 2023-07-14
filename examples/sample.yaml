@@ -1,0 +1,4 @@
+apiVersion: operator.kyma-project.io/v1alpha1
+kind: RedisOperator
+metadata:
+  name: redis-operator
