@@ -1,0 +1,35 @@
+{{- $redisName := printf "%s-test-1-%s" (include "redis-operator.fullname" .) (randAlphaNum 10 | lower) }}
+---
+apiVersion: cache.cs.sap.com/v1alpha1
+kind: Redis
+metadata:
+  name: {{ $redisName }}
+  labels:
+    {{- include "redis-operator.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: test
+    helm.sh/hook-weight: "0"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ include "redis-operator.fullname" . }}-test-1
+  labels:
+    {{- include "redis-operator.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: test
+    helm.sh/hook-weight: "1"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+spec:
+  containers:
+  - name: kubectl
+    image: bitnami/kubectl:{{ .Capabilities.KubeVersion.Version | trimPrefix "v" }}
+    command:
+    - bash
+    - -ec
+    - |
+        kubectl wait redis.cache.cs.sap.com/{{ $redisName }} --for condition=Ready --timeout 120s
+  serviceAccountName: {{ include "redis-operator.fullname" . }}-test
+  terminationGracePeriodSeconds: 3
+  restartPolicy: Never
