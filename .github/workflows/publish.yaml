@@ -137,3 +137,4 @@ jobs:
         cd crds
         repository=$REGISTRY/${{ github.repository }}/crds
         tar cvz * | regctl artifact put -m application/gzip ${repository,,}:${{ github.event.release.tag_name }}
+
