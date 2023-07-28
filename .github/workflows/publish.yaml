@@ -29,11 +29,11 @@ jobs:
         chart_version=$(yq .version $CHART_DIRECTORY/Chart.yaml)
         app_version=$(yq .appVersion $CHART_DIRECTORY/Chart.yaml)
         if [ "v$chart_version" != "${{ github.event.release.tag_name }}" ]; then
-          >&1 echo "Version in $CHART_DIRECTORY/Chart.yaml ($chart_version) does not match release version (${{ github.event.release.tag_name }})."
+          >&2 echo "Version in $CHART_DIRECTORY/Chart.yaml ($chart_version) does not match release version (${{ github.event.release.tag_name }})."
           exit 1
         fi
         if [ "$app_version" != "${{ github.event.release.tag_name }}" ]; then
-          >&1 echo "AppVersion in $CHART_DIRECTORY/Chart.yaml ($app_version) does not match release version (${{ github.event.release.tag_name }})."
+          >&2 echo "AppVersion in $CHART_DIRECTORY/Chart.yaml ($app_version) does not match release version (${{ github.event.release.tag_name }})."
           exit 1
         fi
 
