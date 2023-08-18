@@ -141,6 +141,8 @@ github.com/prometheus/procfs v0.9.0/go.mod h1:+pB4zwohETzFnmlpe6yd2lSc+0/46IYZRB
 github.com/rogpeppe/go-internal v1.10.0 h1:TMyTOH3F/DB16zRVcYyreMH6GnZZrwQVAoYjRBZyWFQ=
 github.com/sap/component-operator-runtime v0.1.4 h1:oB4KTrBx/+Dm9EQE5FCRDXEXSyHzOpdv1SGPKhCsqP4=
 github.com/sap/component-operator-runtime v0.1.4/go.mod h1:5cMR7EGRQBv+/dhzNDiKTibvklTyZVYTfSbuone8edk=
+github.com/sap/component-operator-runtime v0.1.6 h1:uJQ0zj4vNJbjQBOi0aiiKmCeePySpFbA42tX2c+4HmQ=
+github.com/sap/component-operator-runtime v0.1.6/go.mod h1:5cMR7EGRQBv+/dhzNDiKTibvklTyZVYTfSbuone8edk=
 github.com/sap/go-generics v0.1.1 h1:3T4McSGF5epH8Yp4bbxD07oa5J0pH7Nfx4r4zwdsr4o=
 github.com/sap/go-generics v0.1.1/go.mod h1:8L5jyDKi/FHKG/R+qwyy9h1TymA7XO5YSu+J/27gTCg=
 github.com/sergi/go-diff v1.1.0 h1:we8PVUC3FE2uYfodKH/nBHMSetSfHDR6scGdBi+erh0=
@@ -330,6 +332,8 @@ sigs.k8s.io/cli-utils v0.34.0 h1:zCUitt54f0/MYj/ajVFnG6XSXMhpZ72O/3RewIchW8w=
 sigs.k8s.io/cli-utils v0.34.0/go.mod h1:EXyMwPMu9OL+LRnj0JEMsGG/fRvbgFadcVlSnE8RhFs=
 sigs.k8s.io/controller-runtime v0.15.0 h1:ML+5Adt3qZnMSYxZ7gAverBLNPSMQEibtzAgp0UPojU=
 sigs.k8s.io/controller-runtime v0.15.0/go.mod h1:7ngYvp1MLT+9GeZ+6lH3LOlcHkp/+tzA/fmHa4iq9kk=
+sigs.k8s.io/controller-runtime v0.15.1 h1:9UvgKD4ZJGcj24vefUFgZFP3xej/3igL9BsOUTb/+4c=
+sigs.k8s.io/controller-runtime v0.15.1/go.mod h1:7ngYvp1MLT+9GeZ+6lH3LOlcHkp/+tzA/fmHa4iq9kk=
 sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd h1:EDPBXCAspyGV4jQlpZSudPeMmr1bNJefnuqLsRAsHZo=
 sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd/go.mod h1:B8JuhiUyNFVKdsE8h686QcCxMaH6HrOAZj4vswFpcB0=
 sigs.k8s.io/kustomize/api v0.13.4 h1:E38Hfx0G9R9v7vRgKshviPotJQETG0S2gD3JdHLCAsI=
