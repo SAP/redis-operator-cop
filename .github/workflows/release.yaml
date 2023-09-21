@@ -17,6 +17,10 @@ on:
         required: false
         default: ''
 
+  schedule:
+  - cron: '10 11 * * 1'
+  - cron: '10 12 * * 1'
+
 concurrency: trigger-release
 
 env:
@@ -49,31 +53,51 @@ jobs:
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.WORKFLOW_USER_GH_TOKEN }}
+        fetch-depth: 0
 
     - name: Setup semver
-      uses: ./.github/actions/setup-semver
+      uses: sap/cs-actions/setup-semver@main
       with:
         version: ${{ env.SEMVER_VERSION }}
         install-directory: ${{ runner.temp }}/bin
 
     - name: Setup helm-docs
-      uses: ./.github/actions/setup-helm-docs
+      uses: sap/cs-actions/setup-helm-docs@main
       with:
         version: ${{ env.HELM_DOCS_VERSION }}
         install-directory: ${{ runner.temp }}/bin
 
     - name: Determine current release
       id: get_current_release
-      uses: ./.github/actions/get-highest-tag
+      uses: sap/cs-actions/get-highest-tag@main
       with:
         prefix: ${{ env.TAG_PREFIX }}
 
     - name: Determine target release
       id: get_target_release
       run: |
+        create_release=true
+
+        if ${{ github.event_name == 'schedule' }}; then
+          commits_count=$(git rev-list --count --no-merges ${{ steps.get_current_release.outputs.tag }}..HEAD --before=1.hour)
+          if [ $commits_count -eq 0 ]; then
+            create_release=false
+            echo "There are no commits since latest release, nothing to do."
+          fi
+          version_bump=patch
+        else
+          version_bump=${{ inputs.version-bump }}
+        fi
+
+        echo "Create release: $create_release"
+        echo "create_release=$create_release" >> $GITHUB_OUTPUT
+
+        if [ "$create_release" != true ]; then
+          exit 0
+        fi
+
         desired_version=${{ inputs.desired-version }}
         current_version=${{ steps.get_current_release.outputs.version }}
-        version_bump=${{ inputs.version-bump }}
 
         if [ -z "$desired_version" ]; then
           case $version_bump in
@@ -81,7 +105,7 @@ jobs:
               # ok
               ;;
             *)
-              >&2 echo "Invalid input: version-bump ($version_bump)."
+              >&2 echo "Invalid input: version-bump ($version_bump)"
               exit 1
           esac
           if [ -z "$current_version" ]; then
@@ -118,6 +142,7 @@ jobs:
       # a re-run of the job will fail in the following step, because it will try to make pushes to the triggering sha
       # which is no longer the head; this should be caught/improved.
     - name: Update chart version/appVersion and chart docs
+      if: steps.get_target_release.outputs.create_release == 'true'
       run: |
         current_chart_version=$(yq .version $CHART_DIRECTORY/Chart.yaml)
         current_app_version=$(yq .appVersion $CHART_DIRECTORY/Chart.yaml)
@@ -152,12 +177,14 @@ jobs:
 
     - name: Determine target commit
       id: get_target_commit
+      if: steps.get_target_release.outputs.create_release == 'true'
       run: |
         sha=$(git rev-parse HEAD)
         echo "Target commit: $sha"
         echo "sha=$sha" >> $GITHUB_OUTPUT
 
     - name: Wait for check suites to complete
+      if: steps.get_target_release.outputs.create_release == 'true'
       uses: sap-contributions/await-check-suites@master
       with:
         ref: ${{ steps.get_target_commit.outputs.sha }}
@@ -167,12 +194,9 @@ jobs:
         appSlugFilter: github-actions
 
     - name: Create Release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: ${{ steps.get_target_release.outputs.tag }}
-        draft: false
-        prerelease: false
-        target_commitish: ${{ steps.get_target_commit.outputs.sha }}
-        token: ${{ secrets.WORKFLOW_USER_GH_TOKEN }}
-        generate_release_notes: false
-
+      if: steps.get_target_release.outputs.create_release == 'true'
+      env:
+        GH_TOKEN: ${{ secrets.WORKFLOW_USER_GH_TOKEN }}
+      run: |
+        gh release create ${{ steps.get_target_release.outputs.tag }} \
+          --target "${{ steps.get_target_commit.outputs.sha }}"
