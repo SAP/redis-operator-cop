@@ -12,7 +12,6 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
-	"k8s.io/client-go/discovery"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -60,8 +59,8 @@ func GetUncacheableTypes() []client.Object {
 	return defaultOperator.GetUncacheableTypes()
 }
 
-func Setup(mgr ctrl.Manager, discoveryClient discovery.DiscoveryInterface) error {
-	return defaultOperator.Setup(mgr, discoveryClient)
+func Setup(mgr ctrl.Manager) error {
+	return defaultOperator.Setup(mgr)
 }
 
 func New() *Operator {
@@ -95,13 +94,11 @@ func (o *Operator) GetUncacheableTypes() []client.Object {
 	return []client.Object{&operatorv1alpha1.RedisOperator{}}
 }
 
-func (o *Operator) Setup(mgr ctrl.Manager, discoveryClient discovery.DiscoveryInterface) error {
+func (o *Operator) Setup(mgr ctrl.Manager) error {
 	resourceGenerator, err := manifests.NewHelmGeneratorWithParameterTransformer(
-		o.options.Name,
 		data,
 		"data/charts/redis-operator",
 		mgr.GetClient(),
-		discoveryClient,
 		transformer.NewParameterTransformer(),
 	)
 	if err != nil {
@@ -110,11 +107,8 @@ func (o *Operator) Setup(mgr ctrl.Manager, discoveryClient discovery.DiscoveryIn
 
 	if err := component.NewReconciler[*operatorv1alpha1.RedisOperator](
 		o.options.Name,
-		mgr.GetClient(),
-		discoveryClient,
-		mgr.GetEventRecorderFor(o.options.Name),
-		mgr.GetScheme(),
 		resourceGenerator,
+		component.ReconcilerOptions{},
 	).SetupWithManager(mgr); err != nil {
 		return errors.Wrapf(err, "unable to create controller")
 	}
