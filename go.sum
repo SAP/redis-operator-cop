@@ -129,6 +129,8 @@ github.com/rogpeppe/go-internal v1.10.0 h1:TMyTOH3F/DB16zRVcYyreMH6GnZZrwQVAoYjR
 github.com/rogpeppe/go-internal v1.10.0/go.mod h1:UQnix2H7Ngw/k4C5ijL5+65zddjncjaFoBhdsK/akog=
 github.com/sap/component-operator-runtime v0.3.0 h1:CaEU2BiqNkDR3X6gKeYZ0U8Qqut0z5KHFMhG7LI89Qk=
 github.com/sap/component-operator-runtime v0.3.0/go.mod h1:LUjZBNtmPooMqKDmHFJe3jB7p+XntKxRVkLVJrSB6w4=
+github.com/sap/component-operator-runtime v0.3.1 h1:omVQcOWu25XBGiaTyTsFvfg58dOCncrRSwGgH78EQfI=
+github.com/sap/component-operator-runtime v0.3.1/go.mod h1:LUjZBNtmPooMqKDmHFJe3jB7p+XntKxRVkLVJrSB6w4=
 github.com/sap/go-generics v0.1.10 h1:1dc/6WiS6kYoSk8s+slwJTU+zOt5U5gPOV+pAZmhhzg=
 github.com/sap/go-generics v0.1.10/go.mod h1:P0+/APImYIlDC3RkF43EVj12aoYBks29dMTbPotqdso=
 github.com/sergi/go-diff v1.1.0 h1:we8PVUC3FE2uYfodKH/nBHMSetSfHDR6scGdBi+erh0=
