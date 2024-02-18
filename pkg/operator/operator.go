@@ -16,7 +16,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/sap/component-operator-runtime/pkg/component"
-	"github.com/sap/component-operator-runtime/pkg/manifests"
+	helmgenerator "github.com/sap/component-operator-runtime/pkg/manifests/helm"
 	"github.com/sap/component-operator-runtime/pkg/operator"
 
 	operatorv1alpha1 "github.com/sap/redis-operator-cop/api/v1alpha1"
@@ -95,7 +95,7 @@ func (o *Operator) GetUncacheableTypes() []client.Object {
 }
 
 func (o *Operator) Setup(mgr ctrl.Manager) error {
-	resourceGenerator, err := manifests.NewHelmGeneratorWithParameterTransformer(
+	resourceGenerator, err := helmgenerator.NewHelmGeneratorWithParameterTransformer(
 		data,
 		"data/charts/redis-operator",
 		mgr.GetClient(),
