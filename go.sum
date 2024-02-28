@@ -114,8 +114,12 @@ github.com/sap/component-operator-runtime v0.3.2 h1:QNTqd6ENyByp0RiWCi5aWAtH7CtT
 github.com/sap/component-operator-runtime v0.3.2/go.mod h1:34vwhRIS4yMu1Qnkp7W4vdISIOB78oIWTTUQ1v6GkUY=
 github.com/sap/component-operator-runtime v0.3.3 h1:5eQj7DPFkGP+76MJjel1468TObtBPAvqtwaaSSt0PgI=
 github.com/sap/component-operator-runtime v0.3.3/go.mod h1:34vwhRIS4yMu1Qnkp7W4vdISIOB78oIWTTUQ1v6GkUY=
+github.com/sap/component-operator-runtime v0.3.4 h1:fKIZCer89Z2w1lCVT6rKImCarUkIknlRJ8zLb104Bk8=
+github.com/sap/component-operator-runtime v0.3.4/go.mod h1:9daNXxB9MFrglgBDzGYTBwizlKfo8AJiN3srBpPnAVo=
 github.com/sap/go-generics v0.1.10 h1:1dc/6WiS6kYoSk8s+slwJTU+zOt5U5gPOV+pAZmhhzg=
 github.com/sap/go-generics v0.1.10/go.mod h1:P0+/APImYIlDC3RkF43EVj12aoYBks29dMTbPotqdso=
+github.com/sap/go-generics v0.2.0 h1:uXjK6eZDj4XFe52KiMfX7YsHJ+YyOrhUgohe1hNT/78=
+github.com/sap/go-generics v0.2.0/go.mod h1:LPjEUR4matw9C7GZdHYMExVN8+LeNK5LmrL24JKr8eg=
 github.com/shopspring/decimal v1.2.0/go.mod h1:DKyhrW/HYNuLGql+MJL6WCR6knT2jwCFRcu2hWCYk4o=
 github.com/shopspring/decimal v1.3.1 h1:2Usl1nmF/WZucqkFZhnfFYxxxu8LG21F6nPQBE5gKV8=
 github.com/shopspring/decimal v1.3.1/go.mod h1:DKyhrW/HYNuLGql+MJL6WCR6knT2jwCFRcu2hWCYk4o=
