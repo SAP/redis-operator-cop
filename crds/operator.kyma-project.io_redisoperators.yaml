@@ -1688,8 +1688,7 @@ spec:
                       description: Reconcile policy.
                       type: string
                     status:
-                      description: Observed status of the dependent object, as observed
-                        by kstatus.
+                      description: Observed status of the dependent object.
                       type: string
                     updatePolicy:
                       description: Update policy.
