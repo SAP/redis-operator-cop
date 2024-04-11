@@ -1,0 +1,13 @@
+{{- if and .Values.metrics.prometheusRule.enabled .Values.metrics.prometheusRule.rules }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "redis-operator.fullname" . }}
+  labels:
+    {{- include "redis-operator.labels" . | nindent 4 }}
+spec:
+  groups:
+  - name: {{ include "redis-operator.name" . }}
+    rules:
+    {{- toYaml .Values.metrics.prometheusRule.rules | nindent 4 }}
+{{- end }}

@@ -1,0 +1,17 @@
+{{- if .Values.metrics.podMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ include "redis-operator.fullname" . }}
+  labels:
+    {{- include "redis-operator.labels" . | nindent 4 }}
+spec:
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- include "redis-operator.selectorLabels" . | nindent 6 }}
+  podMetricsEndpoints:
+  - port: metrics
+{{- end }}

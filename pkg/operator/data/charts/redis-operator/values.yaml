@@ -78,3 +78,13 @@ webhook:
     issuerKind: ""
     # -- Issuer name (only relevant if enabled is true; if unset, a self-signed issuer is used)
     issuerName: ""
+
+metrics:
+  podMonitor:
+    # -- Whether to create a PodMonitor resource
+    enabled: false
+  prometheusRule:
+    # -- Whether to create a PrometheusRule resource
+    enabled: false
+    # -- PrometheusRule rules
+    rules: []
