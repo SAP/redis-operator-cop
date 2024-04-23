@@ -7,7 +7,7 @@ metadata:
     {{- include "redis-operator.labels" . | nindent 4 }}
 spec:
   groups:
-  - name: {{ include "redis-operator.name" . }}
+  - name: {{ include "redis-operator.name" . }}-alerts
     rules:
     {{- toYaml .Values.metrics.prometheusRule.rules | nindent 4 }}
 {{- end }}
