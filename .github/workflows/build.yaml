@@ -119,7 +119,7 @@ jobs:
         labels: ${{ steps.extract-custom-labels.outputs.labels }}
 
     - name: Build Docker image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         platforms: linux/amd64,linux/arm64
         context: .
