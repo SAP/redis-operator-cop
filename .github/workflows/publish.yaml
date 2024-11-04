@@ -18,7 +18,7 @@ defaults:
 jobs:
   validate:
     name: Run validations
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
     - name: Checkout repository
@@ -39,7 +39,7 @@ jobs:
 
   publish-docker:
     name: Publish Docker image
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: validate
     permissions:
       contents: read
@@ -88,7 +88,7 @@ jobs:
         labels: ${{ steps.extract-custom-labels.outputs.labels }}
 
     - name: Build and push Docker image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         platforms: linux/amd64,linux/arm64
         context: .
@@ -106,7 +106,7 @@ jobs:
 
   publish-crds:
     name: Publish CRD image
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: validate
     permissions:
       contents: read

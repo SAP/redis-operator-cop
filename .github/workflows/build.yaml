@@ -24,7 +24,7 @@ defaults:
 jobs:
   test:
     name: Run tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
     - name: Checkout repository
@@ -74,7 +74,7 @@ jobs:
 
   build-docker:
     name: Build Docker image
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: test
     permissions:
       contents: read
@@ -119,7 +119,7 @@ jobs:
         labels: ${{ steps.extract-custom-labels.outputs.labels }}
 
     - name: Build Docker image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         platforms: linux/amd64,linux/arm64
         context: .
@@ -144,7 +144,7 @@ jobs:
 
   test-helm:
     name: Run Helm chart tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: build-docker
 
     steps:
