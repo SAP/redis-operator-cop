@@ -1,6 +1,6 @@
 # redis-operator
 
-![Version: 0.1.32](https://img.shields.io/badge/Version-0.1.32-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.29](https://img.shields.io/badge/AppVersion-v0.1.29-informational?style=flat-square)
+![Version: 0.1.33](https://img.shields.io/badge/Version-0.1.33-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.30](https://img.shields.io/badge/AppVersion-v0.1.30-informational?style=flat-square)
 
 A Helm chart for https://github.com/sap/redis-operator
 
