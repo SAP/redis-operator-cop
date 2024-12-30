@@ -181,9 +181,18 @@ jobs:
 
     - name: Install Helm chart and deploy sample component
       run: |
+        if [ -f examples/setup.yaml ]; then
+          # TODO: move this to an extra step
+          kubectl apply --server-side --field-manager integration-test --force-conflicts -f examples/setup.yaml
+          sleep 5
+        fi
+        if [ -f $CHART_DIRECTORY/.setup.yaml ]; then
+          kubectl apply --server-side --field-manager integration-test --force-conflicts-f $CHART_DIRECTORY/.setup.yaml
+          sleep 5
+        fi
         release_name=$(yq .name $CHART_DIRECTORY/Chart.yaml)
-        kubectl create ns cop-system
-        helm -n cop-system upgrade -i $release_name --wait --timeout 5m \
+        kubectl create ns component-operator-system
+        helm -n component-operator-system upgrade -i $release_name --wait --timeout 5m \
           --set image.repository=${{ needs.build-docker.outputs.image-repository }} \
           --set image.tag=${{ needs.build-docker.outputs.image-tag }} \
           $CHART_DIRECTORY

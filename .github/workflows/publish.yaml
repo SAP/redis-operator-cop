@@ -7,6 +7,7 @@ on:
 concurrency: release-${{ github.event.release.tag_name }}
 
 env:
+  HELM_VERSION: v3.11.3
   REGCTL_VERSION: v0.4.8
   REGISTRY: ghcr.io
   CHART_DIRECTORY: chart
@@ -16,6 +17,21 @@ defaults:
     shell: bash
 
 jobs:
+  publish-go-module:
+    name: Publish go module
+    runs-on: ubuntu-24.04
+
+    steps:
+    - name: Trigger registration on sum.golang.org
+      run: |
+        repository=${{ github.repository }}
+        tag=${{ github.event.release.tag_name }}
+        curl -sSf \
+          --max-time 30 \
+          --retry 5 \
+          --retry-max-time 300 \
+          https://sum.golang.org/lookup/github.com/${repository,,}@${tag}
+
   validate:
     name: Run validations
     runs-on: ubuntu-24.04
@@ -137,4 +153,37 @@ jobs:
         cd crds
         repository=$REGISTRY/${{ github.repository }}/crds
         tar cvz * | regctl artifact put -m application/gzip ${repository,,}:${{ github.event.release.tag_name }}
+
+  publish-chart:
+    name: Publish chart to github packages
+    runs-on: ubuntu-24.04
+    needs: validate
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - uses: azure/setup-helm@v4
+      with:
+       version: ${{ env.HELM_VERSION }}
+
+    - name: Create package
+      run: |
+        chart_version=$(yq .version $CHART_DIRECTORY/Chart.yaml)
+        helm package --version $chart_version $CHART_DIRECTORY
+
+    - name: Login to the OCI registry
+      run: |
+        helm --registry-config $RUNNER_TEMP/helm-config.json registry login $REGISTRY -u ${{ github.actor }} --password-stdin <<< ${{ github.token }}
+
+    - name: Upload package
+      run: |
+        chart_name=$(yq .name $CHART_DIRECTORY/Chart.yaml)
+        chart_version=$(yq .version $CHART_DIRECTORY/Chart.yaml)
+        file=$chart_name-$chart_version.tgz
+        repository=$REGISTRY/${{ github.repository }}/charts
+        helm --registry-config $RUNNER_TEMP/helm-config.json push $file oci://${repository,,}
 
