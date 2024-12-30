@@ -10,7 +10,8 @@ kind: RedisOperator
 kubernetesVersion: v0.27.2
 mutatingWebhookEnabled: false
 operatorName: redis-operator-cop.cs.sap.com
-owner: SAP SE
+owner: SAP SE or an SAP affiliate company and redis-operator-cop contributors
 resource: redisoperators
+spdxLicenseHeaders: true
 validatingWebhookEnabled: false
 version: v0.1.4
