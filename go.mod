@@ -11,8 +11,8 @@ require (
 	k8s.io/client-go v0.32.0
 	k8s.io/code-generator v0.32.0
 	k8s.io/kube-aggregator v0.32.0
-	sigs.k8s.io/controller-runtime v0.19.3
-	sigs.k8s.io/controller-runtime/tools/setup-envtest v0.0.0-20250106172007-711b48bccf1f
+	sigs.k8s.io/controller-runtime v0.19.4
+	sigs.k8s.io/controller-runtime/tools/setup-envtest v0.0.0-20250108161631-c80ea332ca13
 	sigs.k8s.io/controller-tools v0.16.5
 )
 
@@ -27,6 +27,7 @@ require (
 	github.com/emicklei/go-restful/v3 v3.11.2 // indirect
 	github.com/evanphx/json-patch/v5 v5.9.0 // indirect
 	github.com/fatih/color v1.18.0 // indirect
+	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/zapr v1.3.0 // indirect
