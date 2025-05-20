@@ -5,14 +5,14 @@ go 1.23.5
 require (
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.79.2
-	github.com/sap/component-operator-runtime v0.3.67
+	github.com/sap/component-operator-runtime v0.3.97
 	k8s.io/apiextensions-apiserver v0.32.1
 	k8s.io/apimachinery v0.32.1
 	k8s.io/client-go v0.32.1
 	k8s.io/code-generator v0.32.1
 	k8s.io/kube-aggregator v0.32.1
-	sigs.k8s.io/controller-runtime v0.20.1
-	sigs.k8s.io/controller-runtime/tools/setup-envtest v0.0.0-20250130183723-1a91ccca639b
+	sigs.k8s.io/controller-runtime v0.20.4
+	sigs.k8s.io/controller-runtime/tools/setup-envtest 71f7db556ca5
 	sigs.k8s.io/controller-tools v0.16.5
 )
 
