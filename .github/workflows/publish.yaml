@@ -186,4 +186,3 @@ jobs:
         file=$chart_name-$chart_version.tgz
         repository=$REGISTRY/${{ github.repository }}/charts
         helm --registry-config $RUNNER_TEMP/helm-config.json push $file oci://${repository,,}
-
