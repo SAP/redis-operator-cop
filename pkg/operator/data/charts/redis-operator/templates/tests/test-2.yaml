@@ -32,7 +32,7 @@ metadata:
 spec:
   containers:
   - name: kubectl
-    image: bitnami/kubectl:{{ .Capabilities.KubeVersion.Version | trimPrefix "v" }}
+    image: ghcr.io/sap/kubectl-container:{{ .Capabilities.KubeVersion.Version }}
     command:
     - bash
     - -ec
