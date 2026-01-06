@@ -144,8 +144,8 @@ github.com/prometheus/procfs v0.16.1/go.mod h1:teAbpZRB1iIAJYREa1LsoWUXykVXA1KlT
 github.com/rogpeppe/go-internal v1.13.1 h1:KvO1DLK/DRN07sQ1LQKScxyZJuNnedQ5/wKSR38lUII=
 github.com/rogpeppe/go-internal v1.13.1/go.mod h1:uMEvuHeurkdAXX61udpOXGD/AzZDWNMNyH2VO9fmH0o=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
-github.com/sap/component-operator-runtime v0.3.125 h1:zbPxPb0r50z34Mh4AcgeB29CkzRoWwY5Cn76dXDsDcc=
-github.com/sap/component-operator-runtime v0.3.125/go.mod h1:JJwN7B1tKX/nsXGP2Q/tTZivzyA5O9vAjc+bCTc+l2I=
+github.com/sap/component-operator-runtime v0.3.126 h1:MEv9xhgvknOX40Me4UaSGNkiHwNAUOs8bs6Hd3Xrtf4=
+github.com/sap/component-operator-runtime v0.3.126/go.mod h1:JJwN7B1tKX/nsXGP2Q/tTZivzyA5O9vAjc+bCTc+l2I=
 github.com/sap/go-generics v0.2.47 h1:T0ODIlrIuL9SGp3iFhM07bhA3ZXFp2JHcsncDZ+ufbg=
 github.com/sap/go-generics v0.2.47/go.mod h1:sShwY4JtsiczJ4IZgpWMcTWRn8r+j3R9eg6JoEEQVyM=
 github.com/shopspring/decimal v1.4.0 h1:bxl37RwXBklmTi0C79JfXCEBD1cqqHt0bbgBAGFp81k=
