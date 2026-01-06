@@ -1896,6 +1896,8 @@ spec:
               lastObservedAt:
                 format: date-time
                 type: string
+              lastProcessingDigest:
+                type: string
               observedGeneration:
                 format: int64
                 type: integer
@@ -1904,6 +1906,9 @@ spec:
               processingSince:
                 format: date-time
                 type: string
+              revision:
+                format: int64
+                type: integer
               state:
                 description: Component state. Can be one of 'Ready', 'Pending', 'Processing',
                   'DeletionPending', 'Deleting', 'Error'.
