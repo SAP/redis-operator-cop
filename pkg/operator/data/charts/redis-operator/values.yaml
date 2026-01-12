@@ -68,6 +68,19 @@ service:
   # -- Service port
   port: 443
 
+pdb:
+  # -- Whether to create a PodDisruptionBudget for the webhook
+  enabled: true
+  # -- Labels to set on the PodDisruptionBudget
+  labels: {}
+  # -- Annotations to set on the PodDisruptionBudget
+  annotations: {}
+  # -- Number of pods that are available after eviction as number or percentage (e.g. 50%)
+  # @default -- `"1"` (defaults to 1 if not specified)
+  minAvailable: "1"
+  # -- Number of pods that are unavailable after eviction as number or percentage (e.g: 50%); has higher precedence over `pdb.minAvailable`
+  maxUnavailable: ""
+
 webhook:
   certManager:
     # -- Whether to use cert-manager to manage webhook tls
