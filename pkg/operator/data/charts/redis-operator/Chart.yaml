@@ -2,5 +2,5 @@ apiVersion: v2
 name: redis-operator
 description: A Helm chart for https://github.com/sap/redis-operator
 type: application
-version: 0.1.52
-appVersion: v0.1.47
+version: 0.1.53
+appVersion: v0.1.48
