@@ -1,6 +1,6 @@
 module github.com/sap/redis-operator-cop
 
-go 1.25.6
+go 1.26.0
 
 require (
 	github.com/pkg/errors v0.9.1
