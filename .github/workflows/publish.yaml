@@ -20,6 +20,7 @@ jobs:
   publish-go-module:
     name: Publish go module
     runs-on: ubuntu-24.04
+    environment: release
 
     steps:
     - name: Trigger registration on sum.golang.org
@@ -35,6 +36,7 @@ jobs:
   validate:
     name: Run validations
     runs-on: ubuntu-24.04
+    environment: release
 
     steps:
     - name: Checkout repository
@@ -56,6 +58,7 @@ jobs:
   publish-docker:
     name: Publish Docker image
     runs-on: ubuntu-24.04
+    environment: release
     needs: validate
     permissions:
       contents: read
@@ -123,6 +126,7 @@ jobs:
   publish-crds:
     name: Publish CRD image
     runs-on: ubuntu-24.04
+    environment: release
     needs: validate
     permissions:
       contents: read
@@ -157,6 +161,7 @@ jobs:
   publish-chart:
     name: Publish chart to github packages
     runs-on: ubuntu-24.04
+    environment: release
     needs: validate
     permissions:
       contents: read
