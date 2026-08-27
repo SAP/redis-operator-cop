@@ -5,7 +5,7 @@ go 1.26.6
 require (
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.93.1
-	github.com/sap/component-operator-runtime v0.3.163
+	github.com/sap/component-operator-runtime v0.3.164
 	k8s.io/apiextensions-apiserver v0.36.4
 	k8s.io/apimachinery v0.36.4
 	k8s.io/client-go v0.36.4
