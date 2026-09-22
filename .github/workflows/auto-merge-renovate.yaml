@@ -1,0 +1,77 @@
+name: Auto-merge safe Renovate PRs
+
+# Squash-merges a Renovate PR only if ALL are true:
+#   - CI is fully green (no failing, no pending checks)
+#   - it is NOT a major version bump
+#   - there are no merge conflicts
+# Anything else is skipped and logged in the Actions tab.
+
+on:
+  schedule:
+    - cron: '35 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: auto-merge-renovate
+  cancel-in-progress: false
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Merge safe Renovate PRs
+        run: |
+          set -euo pipefail
+          echo "## Auto-merge Renovate run — $(date -u '+%Y-%m-%d %H:%M UTC')" >> "$GITHUB_STEP_SUMMARY"
+          echo "Repo: $REPO" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          PRS=$(gh pr list --repo "$REPO" --author "app/renovate" --state open \
+                  --json number,title,mergeable,labels,statusCheckRollup)
+
+          if [ "$(echo "$PRS" | jq 'length')" -eq 0 ]; then
+            echo "- No open Renovate PRs" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          echo "$PRS" | jq -c '.[]' | while read -r PR; do
+            NUM=$(echo "$PR" | jq -r '.number')
+            TITLE=$(echo "$PR" | jq -r '.title')
+            MERGEABLE=$(echo "$PR" | jq -r '.mergeable')
+
+            # Skip major version bumps
+            if echo "$TITLE" | grep -qiE 'major' \
+               || echo "$PR" | jq -e '.labels[]?.name | ascii_downcase | contains("major")' >/dev/null; then
+              echo "- Skipped (major): #$NUM — $TITLE" >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+
+            # Skip if there are merge conflicts
+            if [ "$MERGEABLE" != "MERGEABLE" ]; then
+              echo "- Skipped (conflicts): #$NUM — $TITLE" >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+
+            # Skip unless CI is fully green (handles both check types)
+            BAD=$(echo "$PR" | jq '[.statusCheckRollup[]? | select((.conclusion // "" | IN("FAILURE","CANCELLED","TIMED_OUT","ACTION_REQUIRED","STARTUP_FAILURE")) or (.state // "" | IN("FAILURE","ERROR")))] | length')
+            NOT_DONE=$(echo "$PR" | jq '[.statusCheckRollup[]? | select(((.conclusion // "") | IN("SUCCESS","NEUTRAL","SKIPPED") | not) and ((.state // "") != "SUCCESS"))] | length')
+            TOTAL=$(echo "$PR" | jq '[.statusCheckRollup[]?] | length')
+            if [ "$TOTAL" -eq 0 ] || [ "$BAD" -gt 0 ] || [ "$NOT_DONE" -gt 0 ]; then
+              echo "- Skipped (CI not green): #$NUM — $TITLE" >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+
+            # All checks passed -> squash merge
+            if gh pr merge "$NUM" --repo "$REPO" --squash --delete-branch; then
+              echo "- Merged: #$NUM — $TITLE" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "- Merge failed (left open): #$NUM — $TITLE" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
