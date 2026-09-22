@@ -68,10 +68,11 @@ jobs:
               continue
             fi
 
-            # All checks passed -> squash merge
-            if gh pr merge "$NUM" --repo "$REPO" --squash --delete-branch; then
-              echo "- Merged: #$NUM — $TITLE" >> "$GITHUB_STEP_SUMMARY"
+            # All checks passed -> enable auto-merge (merges once the required
+            # approval + checks are all in place; no force-merge, respects branch policy)
+            if gh pr merge "$NUM" --repo "$REPO" --squash --delete-branch --auto; then
+              echo "- Queued for auto-merge: #$NUM — $TITLE" >> "$GITHUB_STEP_SUMMARY"
             else
-              echo "- Merge failed (left open): #$NUM — $TITLE" >> "$GITHUB_STEP_SUMMARY"
+              echo "- Could not queue (left open): #$NUM — $TITLE" >> "$GITHUB_STEP_SUMMARY"
             fi
           done
