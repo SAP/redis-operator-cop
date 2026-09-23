@@ -34,7 +34,7 @@ jobs:
           echo "" >> "$GITHUB_STEP_SUMMARY"
 
           PRS=$(gh pr list --repo "$REPO" --author "app/renovate" --state open \
-                  --json number,title,mergeable,labels,statusCheckRollup)
+                  --json number,title,mergeable,labels,statusCheckRollup,headRefName)
 
           if [ "$(echo "$PRS" | jq 'length')" -eq 0 ]; then
             echo "- No open Renovate PRs" >> "$GITHUB_STEP_SUMMARY"
@@ -45,9 +45,11 @@ jobs:
             NUM=$(echo "$PR" | jq -r '.number')
             TITLE=$(echo "$PR" | jq -r '.title')
             MERGEABLE=$(echo "$PR" | jq -r '.mergeable')
+            BRANCH=$(echo "$PR" | jq -r '.headRefName')
 
-            # Skip major version bumps
+            # Skip major version bumps (title, label, or Renovate's major-* branch name)
             if echo "$TITLE" | grep -qiE 'major' \
+               || echo "$BRANCH" | grep -qiE 'major' \
                || echo "$PR" | jq -e '.labels[]?.name | ascii_downcase | contains("major")' >/dev/null; then
               echo "- Skipped (major): #$NUM — $TITLE" >> "$GITHUB_STEP_SUMMARY"
               continue
