@@ -19,7 +19,7 @@ defaults:
 jobs:
   publish-go-module:
     name: Publish go module
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     environment: release
 
     steps:
@@ -35,7 +35,7 @@ jobs:
 
   validate:
     name: Run validations
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     environment: release
 
     steps:
@@ -57,7 +57,7 @@ jobs:
 
   publish-docker:
     name: Publish Docker image
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     environment: release
     needs: validate
     permissions:
@@ -125,7 +125,7 @@ jobs:
 
   publish-crds:
     name: Publish CRD image
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     environment: release
     needs: validate
     permissions:
@@ -160,7 +160,7 @@ jobs:
 
   publish-chart:
     name: Publish chart to github packages
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     environment: release
     needs: validate
     permissions:
