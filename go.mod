@@ -6,11 +6,11 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.94.1
 	github.com/sap/component-operator-runtime v0.3.170
-	k8s.io/apiextensions-apiserver v0.37.0
-	k8s.io/apimachinery v0.37.0
-	k8s.io/client-go v0.37.0
-	k8s.io/code-generator v0.37.0
-	k8s.io/kube-aggregator v0.37.0
+	k8s.io/apiextensions-apiserver v0.37.1
+	k8s.io/apimachinery v0.37.1
+	k8s.io/client-go v0.37.1
+	k8s.io/code-generator v0.37.1
+	k8s.io/kube-aggregator v0.37.1
 	sigs.k8s.io/controller-runtime v0.25.1
 	sigs.k8s.io/controller-runtime/tools/setup-envtest v0.25.1
 	sigs.k8s.io/controller-tools v0.22.0
@@ -95,7 +95,7 @@ require (
 	google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.13.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
-	k8s.io/api v0.37.0 // indirect
+	k8s.io/api v0.37.1 // indirect
 	k8s.io/gengo/v2 v2.0.0-20260408192533-25e2208e0dc3 // indirect
 	k8s.io/klog/v2 v2.140.0 // indirect
 	k8s.io/kube-openapi v0.0.0-20260821135717-be32def86098 // indirect
