@@ -141,8 +141,8 @@ github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 h1:C3w9PqII01/Oq
 github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822/go.mod h1:+n7T8mK8HuQTcFwEeznm/DIxMOiR9yIdICNftLE1DvQ=
 github.com/onsi/ginkgo/v2 v2.33.0 h1:C8gBA6Uc2ZEubiV+SXiu5tZnMTwEmXHgkJwGozKtZf8=
 github.com/onsi/ginkgo/v2 v2.33.0/go.mod h1:+aXOY+vzZ5mu2iI2HpTZUPmM//oQfsNFX6gU9kNcA44=
-github.com/onsi/gomega v1.43.1 h1:vGIPFuYrIO6/0Z09s0I0QQQgFchiX4+tb1re3MScJYo=
-github.com/onsi/gomega v1.43.1/go.mod h1:e/C2HwaZ1DhvjzXXuFhcR7hY7Sh9pl7MmoWKEjzwcdA=
+github.com/onsi/gomega v1.44.0 h1:eAiGl3Pw5jz5GQdDff0BcxYpAX1JxW8xD7mFUuwNfZQ=
+github.com/onsi/gomega v1.44.0/go.mod h1:e/C2HwaZ1DhvjzXXuFhcR7hY7Sh9pl7MmoWKEjzwcdA=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
@@ -161,10 +161,10 @@ github.com/prometheus/procfs v0.21.1/go.mod h1:aB55Cww9pdSJVHk0hUf0inxWyyjPogFIj
 github.com/rogpeppe/go-internal v1.14.1 h1:UQB4HGPB6osV0SQTLymcB4TgvyWu6ZyliaW0tI/otEQ=
 github.com/rogpeppe/go-internal v1.14.1/go.mod h1:MaRKkUm5W0goXpeCfT7UZI6fk/L7L7so1lCWt35ZSgc=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
-github.com/sap/component-operator-runtime v0.3.170 h1:RPFI6zVgDXQ72qaX19KbEcPP1E9Skl/iX91Rd1LvGvo=
-github.com/sap/component-operator-runtime v0.3.170/go.mod h1:fGet4vttEa3qDdq8W3+mSn23YHgxqTZkRjwh8dah+Aw=
-github.com/sap/go-generics v0.2.74 h1:r9fy3TooVCpKp4ZwAb0mbyMv24ve9FVgES+0ltOSTQo=
-github.com/sap/go-generics v0.2.74/go.mod h1:EUsYdHx1WF2rQ6WUvEisqK5bz1hcU9JRH20BWgx8sjI=
+github.com/sap/component-operator-runtime v0.3.171 h1:w3hx0UrA0Kx0SgqgzqYVuuTkdlfkeGdRL3GJTWXK7EI=
+github.com/sap/component-operator-runtime v0.3.171/go.mod h1:ZGYTh88YCyAWHqIMbeTP5teeselJaHfkiUkDCd1gbMw=
+github.com/sap/go-generics v0.2.75 h1:aQ6/Xm09ziJAJBGmv42q3lu65JXmZwnt0A6aEgoyIBI=
+github.com/sap/go-generics v0.2.75/go.mod h1:l7WBeNIfmjw6vmLPF+Zks2JSiTWhdHkJY6BWAA24dcM=
 github.com/sergi/go-diff v1.4.0 h1:n/SP9D5ad1fORl+llWyN+D6qoUETXNZARKjyY2/KVCw=
 github.com/sergi/go-diff v1.4.0/go.mod h1:A0bzQcvG0E7Rwjx0REVgAGH58e96+X0MeOfepqsbeW4=
 github.com/shopspring/decimal v1.4.0 h1:bxl37RwXBklmTi0C79JfXCEBD1cqqHt0bbgBAGFp81k=
