@@ -1,6 +1,6 @@
 # redis-operator
 
-![Version: 0.1.60](https://img.shields.io/badge/Version-0.1.60-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.54](https://img.shields.io/badge/AppVersion-v0.1.54-informational?style=flat-square)
+![Version: 0.1.67](https://img.shields.io/badge/Version-0.1.67-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.55](https://img.shields.io/badge/AppVersion-v0.1.55-informational?style=flat-square)
 
 A Helm chart for https://github.com/sap/redis-operator
 
@@ -30,6 +30,8 @@ A Helm chart for https://github.com/sap/redis-operator
 | resources.limits.memory | string | `"128Mi"` | Memory limit |
 | resources.requests.cpu | string | `"100m"` | CPU request |
 | resources.requests.memory | string | `"128Mi"` | Memory request |
+| dnsPolicy | string | `"ClusterFirst"` |  |
+| hostNetwork | bool | `false` |  |
 | service.type | string | `"ClusterIP"` | Service type |
 | service.port | int | `443` | Service port |
 | pdb.enabled | bool | `true` | Whether to create a PodDisruptionBudget for the webhook |

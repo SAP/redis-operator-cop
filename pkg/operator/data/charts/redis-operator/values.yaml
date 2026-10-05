@@ -61,7 +61,8 @@ resources:
     cpu: 100m
     # -- Memory request
     memory: 128Mi
-
+dnsPolicy: ClusterFirst
+hostNetwork: false
 service:
   # -- Service type
   type: ClusterIP
