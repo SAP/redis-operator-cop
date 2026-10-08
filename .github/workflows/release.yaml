@@ -27,7 +27,7 @@ env:
   TAG_PREFIX: v
   INITIAL_TAG: v0.1.0
   SEMVER_VERSION: 3.4.0
-  HELM_DOCS_VERSION: v1.11.0
+  HELM_DOCS_VERSION: v1.14.2
   CHART_DIRECTORY: chart
 
 defaults:
@@ -193,7 +193,6 @@ jobs:
         timeoutSeconds: 1800
         failStepIfUnsuccessful: true
         appSlugFilter: github-actions
-
 
     - name: Generate release notes
       id: release_notes
