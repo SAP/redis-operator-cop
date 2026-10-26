@@ -2,5 +2,5 @@ apiVersion: v2
 name: redis-operator-cop
 description: A Helm chart for https://github.com/sap/redis-operator-cop
 type: application
-version: 0.1.104
-appVersion: v0.1.104
+version: 0.1.105
+appVersion: v0.1.105
